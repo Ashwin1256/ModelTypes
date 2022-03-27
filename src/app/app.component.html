@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <h1>Registration Form</h1>
-  <form [formGroup]="registrationForm">
+  <form [formGroup]="registrationForm" (ngSubmit)="onsubmit()" >
 
     {{registrationForm.value |json}}
     {{registrationForm.valid}}
@@ -11,24 +11,51 @@
     </div>
 
     <div class="form-group">
+      <label>email</label>
+      
+      <button type="button" class=" btn btn-secondary btn-sm m-2" (click)="addAlternateEmail()"> Add email</button>
+      <input formControlName="email"  type="email" class="form-control">
+   
+      <small class="text-danger" *ngIf="registrationForm.controls.email?.errors?.required && registrationForm.controls.email.touched ||registrationForm.controls.email?.errors?.required  && submitted"> Email field is now required </small>
+   <div formArrayName="alternateEmail" *ngFor=" let email of alternateEmail.controls ; let i = index">
+     <input type="email" class="form-control my-1" [formControlName]="i">
+
+   </div>
+    </div>
+
+    <div class="form-check">
+      <label>
+        susbscribe
+      </label>
+      <input formControlName="promotion" class="form-check-input" type="checkbox" id="flexCheckChecked" >
+      
+    </div>
+
+    <div class="form-group">
 
       <label>Password</label>
-      <input formControlName="password" type="password"  id="password" class="form-control">
+      <input formControlName="password" type="password" id="password" class="form-control">
 
-      <div *ngIf="registrationForm.controls.password.touched && registrationForm.controls.password.invalid" class="alert alert-danger"> 
+      <div *ngIf="registrationForm.controls.password.touched && registrationForm.controls.password.invalid"
+        class="alert alert-danger">
 
-        <small class="text-danger" *ngIf="registrationForm.controls.password?.errors?.required">passowrd is required please enter </small>
-        <small class="text-danger" *ngIf="registrationForm.controls.password?.errors?.forbiddenname">{{registrationForm.controls.password?.errors?.forbiddenname.value}} This name is not allowed</small>
+        <small class="text-danger" *ngIf="registrationForm.controls.password?.errors?.required">passowrd is required
+          please enter </small>
+        <small class="text-danger"
+          *ngIf="registrationForm.controls.password?.errors?.forbiddenname">{{registrationForm.controls.password?.errors?.forbiddenname.value}}
+          This name is not allowed</small>
       </div>
-      
+
     </div>
 
     <div class="form-group">
 
       <label>ReEnterPassword</label>
       <input formControlName="confirmpassword" id="confirmpassword" type="password" class="form-control">
-      <div *ngIf="registrationForm.controls.confirmpassword.touched && registrationForm.controls.confirmpassword.invalid"> 
-        <small class="text-danger" *ngIf="registrationForm.controls.confirmpassword?.errors?.pwdmatch">passowrd enterd does not match please check </small>
+      <div
+        *ngIf="registrationForm.controls.confirmpassword.touched && registrationForm.controls.confirmpassword.invalid">
+        <small class="text-danger" *ngIf="registrationForm.controls.confirmpassword?.errors?.pwdmatch">passowrd enterd
+          does not match please check </small>
       </div>
     </div>
 
@@ -57,4 +84,12 @@
     </div>
   </form>
 
+</div>
+<nav>
+  <a routerLink="/dptlist" routerLinkActive="active">Departments</a> &nbsp;&nbsp;
+  <a routerLink="/employee">Employees</a>
+</nav>
+<div class="mt-4">
+
+  <router-outlet></router-outlet>
 </div>
